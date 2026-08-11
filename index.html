@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEC AR Questionnaire - CSR Sustain</title>
+    <!-- Include EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2D6A6A;
+            --primary-hover: #1F4A4A;
+            --secondary-color: #7FE5C9;
+            --light-bg: #F8FAFC;
+            --text-color: #1E293B;
+            --border-color: #E2E8F0;
+            --white: #FFFFFF;
+            --disabled-grey: #94A3B8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--secondary-color);
+        }
+
+        .header-text h1 {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .header-text p {
+            margin: 0;
+            color: #E2E8F0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .logo-placeholder {
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+        
+        .logo-placeholder span {
+            color: var(--secondary-color);
+        }
+
+        .category-tabs {
+            display: flex;
+            background: #F1F5F9;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-step {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 10px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--disabled-grey);
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            cursor: not-allowed;
+            transition: all 0.2s ease;
+        }
+
+        .tab-step.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background-color: var(--white);
+            cursor: default;
+        }
+
+        .tab-step.completed {
+            color: #059669;
+            border-bottom-color: #A7F3D0;
+            cursor: pointer;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2.section-title {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        label.required-field::after {
+            content: " *";
+            color: #EF4444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: var(--text-color);
+            background-color: #FCFDFE;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(45, 106, 106, 0.1);
+        }
+
+        .choice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .choice-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #FCFDFE;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .choice-item:hover {
+            background-color: #F8FAFC;
+            border-color: #CBD5E1;
+        }
+
+        .choice-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .conditional-block {
+            display: none;
+            background-color: #F8FAFC;
+            border-left: 4px solid var(--primary-color);
+            padding: 25px;
+            margin-top: 15px;
+            border-radius: 0 12px 12px 0;
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .conditional-block h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #E2E8F0;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background-color: #CBD5E1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .label-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .label-row label {
+            margin-bottom: 0;
+        }
+
+        .help-icon-btn {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid var(--primary-color);
+            background-color: var(--white);
+            color: var(--primary-color);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.2s ease;
+        }
+
+        .help-icon-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .help-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 23, 42, 0.55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .help-modal-overlay.active {
+            display: flex;
+        }
+
+        .help-modal-box {
+            background: var(--white);
+            border-radius: 12px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 28px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 20px;
+        }
+
+        .help-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .help-modal-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            font-size: 22px;
+            line-height: 1;
+            color: #64748B;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .help-modal-close:hover {
+            color: var(--text-color);
+        }
+
+        .help-modal-body p {
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+            margin-top: 0;
+        }
+
+        .help-modal-body dl {
+            margin: 0;
+        }
+
+        .help-modal-body dt {
+            font-weight: 600;
+            font-size: 13.5px;
+            color: var(--primary-color);
+            margin-top: 14px;
+        }
+
+        .help-modal-body dt:first-child {
+            margin-top: 0;
+        }
+
+        .help-modal-body dd {
+            margin: 4px 0 0 0;
+            font-size: 13.5px;
+            color: #475569;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-text">
+            <h1>DEC AR Questionnaire</h1>
+            <p>Please complete each section chronologically. Tabs unlock as you proceed.</p>
+        </div>
+        <div class="logo-placeholder">CSR <span>Sustain</span></div>
+    </div>
+
+    <div class="category-tabs" id="tabBar">
+        <div class="tab-step active" id="step0" onclick="navigateToStep(0)">General Info</div>
+        <div class="tab-step" id="step1" onclick="navigateToStep(1)">Operations & Fabric</div>
+        <div class="tab-step" id="step2" onclick="navigateToStep(2)">HVAC & Heating</div>
+        <div class="tab-step" id="step3" onclick="navigateToStep(3)">Ventilation & AC</div>
+        <div class="tab-step" id="step4" onclick="navigateToStep(4)">Lighting & Water</div>
+        <div class="tab-step" id="step5" onclick="navigateToStep(5)">Power & Utilities</div>
+        <div class="tab-step" id="step6" onclick="navigateToStep(6)">Special Systems</div>
+        <div class="tab-step" id="step7" onclick="navigateToStep(7)">Catering</div>
+        <div class="tab-step" id="step8" onclick="navigateToStep(8)">Sign Off</div>
+    </div>
+
+    <form id="decForm" class="form-content" onkeypress="return event.keyCode != 13;">
+        
+        <!-- CATEGORY 1: GENERAL INFO -->
+        <div class="tab-panel active">
+            <h2 class="section-title">General Information</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="date" class="required-field">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="buildingName" class="required-field">Building Name</label>
+                    <input type="text" id="buildingName" name="buildingName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address1" class="required-field">Address Line 1</label>
+                <input type="text" id="address1" name="address1" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="address2">Address Line 2</label>
+                    <input type="text" id="address2" name="address2">
+                </div>
+                <div class="form-group">
+                    <label for="address3">Address Line 3</label>
+                    <input type="text" id="address3" name="address3">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="postcode" class="required-field">Postcode</label>
+                    <input type="text" id="postcode" name="postcode" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactName" class="required-field">Contact Name</label>
+                    <input type="text" id="contactName" name="contactName" required>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="jobTitle">Job Title / Position</label>
+                    <input type="text" id="jobTitle" name="jobTitle">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email Address</label>
+                    <input type="email" id="contactEmail" name="contactEmail">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="buildingAge">Building Age & Extension Ages</label>
+                    <input type="text" id="buildingAge" name="buildingAge" placeholder="e.g., Main built 1995, Ext 2010">
+                </div>
+                <div class="form-group">
+                    <label for="buildingUsage">Building Usage</label>
+                    <input type="text" id="buildingUsage" name="buildingUsage" placeholder="e.g., Office, School, Logistics">
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 2: OPERATIONS & FABRIC -->
+        <div class="tab-panel">
+            <h2 class="section-title">Operation, Management & Fabric</h2>
+            <div class="form-group">
+                <label>What energy supplies does this building use? (Select all that apply)</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="Gas"> Gas</label>
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="Electric"> Electric</label>
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="Oil"> Oil</label>
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="LPG"> LPG</label>
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="Renewables"> Renewables</label>
+                    <label class="choice-item"><input type="checkbox" name="energySupplies" value="Other"> Other</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Does the building ever operate outside of your normal operating hours with an occupancy greater than 25%?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="outsideHours" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="outsideHours" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="outsideHours" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Is the responsibility for energy usage allocated to specific person or persons?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="energyResponsible" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="energyResponsible" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="energyResponsible" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fabricInspection">How often is the condition of the building fabric inspected for energy efficiency?</label>
+                <select id="fabricInspection" name="fabricInspection">
+                    <option value="">-- Select Option --</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                    <option value="Never">Never</option>
+                    <option value="Reactive repairs when needed">Reactive repairs when needed</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <div class="label-row">
+                        <label>Is a Building Logbook available on site?</label>
+                        <button type="button" class="help-icon-btn" onclick="openHelp('buildingLogbook')" aria-label="What does this mean?">?</button>
+                    </div>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="logbook" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="logbook" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="logbook" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Is the building historically listed or protected?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="listedBuilding" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="listedBuilding" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="listedBuilding" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 3: HVAC & HEATING -->
+        <div class="tab-panel">
+            <h2 class="section-title">HVAC Controls & Heating Systems</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="mainHeatingFuel">Main heating fuel type</label>
+                    <select id="mainHeatingFuel" name="mainHeatingFuel">
+                        <option value="">-- Select Option --</option>
+                        <option value="Gas">Gas</option>
+                        <option value="Electric">Electric</option>
+                        <option value="Oil">Oil</option>
+                        <option value="LPG">LPG</option>
+                        <option value="Renewables">Renewables</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="internalEnvironment">Internal Environment profile</label>
+                        <button type="button" class="help-icon-btn" onclick="openHelp('internalEnvironment')" aria-label="What does this mean?">?</button>
+                    </div>
+                    <select id="internalEnvironment" name="internalEnvironment" onchange="toggleOtherText('internalEnvironment', 'internalEnvironmentOtherBlock')">
+                        <option value="">-- Select Option --</option>
+                        <option value="Heating and natural ventilation">Heating and natural ventilation</option>
+                        <option value="Heating and mechanical ventilation">Heating and mechanical ventilation</option>
+                        <option value="Mixed mode with natural ventilation">Mixed mode with natural ventilation</option>
+                        <option value="Mixed mode with mechanical ventilation">Mixed mode with mechanical ventilation</option>
+                        <option value="Air conditioning only">Air conditioning only</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="internalEnvironmentOtherBlock" class="conditional-block">
+                        <label for="internalEnvironmentOther">Please specify</label>
+                        <input type="text" id="internalEnvironmentOther" name="internalEnvironmentOther" placeholder="Describe the internal environment profile">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="hvacSystemType">Main type of HVAC system installed</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('hvacSystemType')" aria-label="What does this mean?">?</button>
+                </div>
+                <select id="hvacSystemType" name="hvacSystemType" onchange="toggleOtherText('hvacSystemType', 'hvacSystemTypeOtherBlock')">
+                    <option value="">-- Select Option --</option>
+                    <option value="Radiators">Radiators</option>
+                    <option value="Under-floor heating">Under-floor heating</option>
+                    <option value="Convectors (fanned and unfanned)">Convectors (fanned and unfanned)</option>
+                    <option value="Local system (electric panel heaters, split AC)">Local system (electric panel heaters, split air conditioning systems)</option>
+                    <option value="Partially centralized (fan coils, chilled beams)">Partially centralized – for example, supplying fan coils, chilled beams</option>
+                    <option value="Centralized system (constant/variable air volume)">Centralized system – for example, constant volume or variable air volume</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div id="hvacSystemTypeOtherBlock" class="conditional-block">
+                    <label for="hvacSystemTypeOther">Please specify</label>
+                    <input type="text" id="hvacSystemTypeOther" name="hvacSystemTypeOther" placeholder="Describe the HVAC system type">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Does the HVAC system benefit from any of the following? (Select all that apply)</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="checkbox" name="hvacBenefits" value="BMS"> Building Management System (BMS)</label>
+                    <label class="choice-item"><input type="checkbox" name="hvacBenefits" value="Optional start/stop"> Optional start/stop</label>
+                    <label class="choice-item"><input type="checkbox" name="hvacBenefits" value="Weather compensation controls"> Weather compensation controls</label>
+                    <label class="choice-item"><input type="checkbox" name="hvacBenefits" value="Zoned HVAC controls"> Zoned HVAC controls</label>
+                    <label class="choice-item"><input type="checkbox" name="hvacBenefits" value="VSD"> Variable Speed Drives (VSD) to fans & compressors</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Have HVAC time/temperature settings been checked by experts in the past 12 months?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="hvacSettingsChecked" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hvacSettingsChecked" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="hvacSettingsChecked" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Has a boiler plant energy performance inspection been carried out in the past 12 months?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Not applicable"> Not Applicable</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Is there an annual expert check system for heating operational efficiency?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="annualHeatingChecks" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="annualHeatingChecks" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="annualHeatingChecks" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 4: VENTILATION & AC -->
+        <div class="tab-panel">
+            <h2 class="section-title">Ventilation Strategy & Air Conditioning</h2>
+            
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="ventStrategy" class="required-field">What type of ventilation strategy/system serves the majority of the building?</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('ventStrategy')" aria-label="What does this mean?">?</button>
+                </div>
+                <select id="ventStrategy" name="ventStrategy" onchange="toggleVentilationSections()">
+                    <option value="">-- Select Option --</option>
+                    <option value="Natural">Natural Ventilation</option>
+                    <option value="Mechanical">Mechanical Ventilation</option>
+                    <option value="Mixed">Mixed Mode</option>
+                </select>
+            </div>
+
+            <!-- Conditional Block: Mixed Mode -->
+            <div id="mixedVentSection" class="conditional-block">
+                <h4>Mixed Mode Ventilation Options</h4>
+                <div class="form-group">
+                    <label>Does the system serve all or just most of the building?</label>
+                    <select name="mixedScope">
+                        <option value="All">All of the building</option>
+                        <option value="Most">Most of the building</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Is the building adequately cooled?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mixedCooled" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mixedCooled" value="No"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Are any obstructions or partitions preventing free cross flow of air?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mixedObstructions" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mixedObstructions" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mixedObstructions" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Are there areas of the building where stratification can occur, for example atria and high ceilings?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mixedStratification" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mixedStratification" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mixedStratification" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Are the mixed mode changeover controls appropriately set and are adjustments delegated to a suitably qualified person?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mixedChangeoverControls" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mixedChangeoverControls" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mixedChangeoverControls" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Do the building occupiers understand the various modes of ventilation and cooling operation?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mixedOccupierUnderstanding" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mixedOccupierUnderstanding" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mixedOccupierUnderstanding" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional Block: Mechanical -->
+            <div id="mechVentSection" class="conditional-block">
+                <h4>Mechanical Ventilation Options</h4>
+                <div class="form-group">
+                    <label>Does the mechanical ventilation system installed serve all the building or just most of the building?</label>
+                    <select name="mechScope">
+                        <option value="All">All of the building</option>
+                        <option value="Most">Most of the building</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Has the mechanical ventilation systems been assessed against current needs?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mechAssessedNeeds" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mechAssessedNeeds" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mechAssessedNeeds" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Is the building humidity controlled?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mechHumidity" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mechHumidity" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mechHumidity" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label-row">
+                        <label>Do the mechanical ventilation systems have variable controls?</label>
+                        <button type="button" class="help-icon-btn" onclick="openHelp('mechVariable')" aria-label="What does this mean?">?</button>
+                    </div>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mechVariable" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mechVariable" value="No"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Is there a service and maintenance plan in place that addresses ventilation energy efficiency?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="mechMaintenancePlan" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="mechMaintenancePlan" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="mechMaintenancePlan" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional Block: Natural -->
+            <div id="naturalVentSection" class="conditional-block">
+                <h4>Natural Ventilation Options</h4>
+                <div class="form-group">
+                    <label>Are there any areas in the building with double height or very high ceilings?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="natHighCeilings" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="natHighCeilings" value="No"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Is the building adequately cooled?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="natCooled" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="natCooled" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="natCooled" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Do you have local controls for air conditioning? If so do you encourage staff to opt for natural ventilation before switching the air conditioning on and closing all windows?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="natLocalACControls" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="natLocalACControls" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="natLocalACControls" value="Not applicable"> Not Applicable</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
+            <div class="form-group">
+                <label class="required-field">Does the building benefit from any air conditioning?</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasAC', 'acConditionalBlock')">
+                    <label class="choice-item"><input type="radio" name="hasAC" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasAC" value="No"> No</label>
+                </div>
+            </div>
+
+            <!-- Conditional Block: AC details -->
+            <div id="acConditionalBlock" class="conditional-block">
+                <h4>Air Conditioning Details</h4>
+                <div class="form-group">
+                    <label>Has an AC inspection been commissioned (TM44 compliance) within the last 5 years?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="acInspection" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="acInspection" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="acInspection" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Are any air conditioning systems over 10 years old?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="acAge" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="acAge" value="No"> No</label>
+                        <label class="choice-item"><input type="radio" name="acAge" value="Don't Know"> Don't Know</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 5: LIGHTING & WATER -->
+        <div class="tab-panel">
+            <h2 class="section-title">Lighting & Hot Water Systems (HWS)</h2>
+            <div class="form-group">
+                <label>Do you have a lighting maintenance, cleaning, and lamp replacement plan?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="lightingPlan" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="lightingPlan" value="No"> No</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="windowCleaning">How often are windows and skylights cleaned?</label>
+                <select id="windowCleaning" name="windowCleaning">
+                    <option value="">-- Select Option --</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="6 monthly">6 monthly</option>
+                    <option value="Yearly">Yearly</option>
+                    <option value="Never">Never</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>Are electrically heated local HWS heaters fitted with individual time controls?</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('hwsTimeControls')" aria-label="What does this mean?">?</button>
+                </div>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="hwsTimeControls" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hwsTimeControls" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="hwsTimeControls" value="Not applicable"> Not Applicable</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>Are water saving measures fitted to taps, showers, etc.? (e.g. flow restrictors, diffusers, self closing taps)</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('waterSaving')" aria-label="What does this mean?">?</button>
+                </div>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="waterSaving" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="waterSaving" value="No"> No</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 6: POWER & UTILITIES -->
+        <div class="tab-panel">
+            <h2 class="section-title">Small Power & On-Site Utilities</h2>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>Are there any items of equipment used within the building that would benefit from automated controls? e.g. vending machines and hot water kettle boilers.</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('automatedControls')" aria-label="What does this mean?">?</button>
+                </div>
+                <div class="choice-list" onchange="toggleRadioBlock('automatedControls', 'automatedControlsBlock')">
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="Don't Know"> Don't Know</label>
+                </div>
+                <div id="automatedControlsBlock" class="conditional-block">
+                    <label for="automatedControlsDetail">Please list the items of equipment</label>
+                    <input type="text" id="automatedControlsDetail" name="automatedControlsDetail" placeholder="e.g. vending machines, kettle boilers, water coolers">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>Is there an active procurement policy ensuring energy-efficient hardware choices (e.g., Energy Star)?</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('procurementPolicy')" aria-label="What does this mean?">?</button>
+                </div>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="procurementPolicy" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="procurementPolicy" value="No"> No</label>
+                </div>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;">
+            
+            <div class="form-group">
+                <label class="required-field">Does the building have any alternative energy sources? (On-Site Renewables)</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasRenewables', 'renewablesBlock')">
+                    <label class="choice-item"><input type="radio" name="hasRenewables" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasRenewables" value="No"> No</label>
+                </div>
+            </div>
+
+            <!-- Conditional Block: Renewables -->
+            <div id="renewablesBlock" class="conditional-block">
+                <h4>Renewable Infrastructure Details</h4>
+                <div class="form-group">
+                    <label>Select which alternative energy sources apply:</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="PV"> Photovoltaic panel (PV)</label>
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="Solar Water"> Solar Water</label>
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="Wind Turbine"> Wind Turbine</label>
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="ASHP"> (ASHP) Air Source Heat Pump</label>
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="GSHP"> (GSHP) Ground Source Heat Pump</label>
+                        <label class="choice-item"><input type="checkbox" name="altSources" value="Biomass"> Biomass</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 7: SPECIAL SYSTEMS -->
+        <div class="tab-panel">
+            <h2 class="section-title">Special Systems (Lifts, Pools, Catering, Steam)</h2>
+            
+            <!-- Lifts Toggle -->
+            <div class="form-group">
+                <label class="required-field">Does the building have any lifts or escalators?</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasLifts', 'liftsBlock')">
+                    <label class="choice-item"><input type="radio" name="hasLifts" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasLifts" value="No"> No</label>
+                </div>
+                <div id="liftsBlock" class="conditional-block">
+                    <label>Are lifts and escalators fitted with localized energy meters?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="liftsMetered" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="liftsMetered" value="No"> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pools Toggle -->
+            <div class="form-group">
+                <label class="required-field">Does the building have a pool complex?</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasPool', 'poolBlock')">
+                    <label class="choice-item"><input type="radio" name="hasPool" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasPool" value="No"> No</label>
+                </div>
+                <div id="poolBlock" class="conditional-block">
+                    <div class="form-group">
+                        <label>Is the pool complex fitted with energy meters?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Is the swimming pool fitted with covers?</label>
+                            <button type="button" class="help-icon-btn" onclick="openHelp('poolCovers')" aria-label="What does this mean?">?</button>
+                        </div>
+                        <div class="choice-list" onchange="toggleRadioBlock('poolCovers', 'poolCoverUsageBlock')">
+                            <label class="choice-item"><input type="radio" name="poolCovers" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolCovers" value="No"> No</label>
+                        </div>
+                        <div id="poolCoverUsageBlock" class="conditional-block">
+                            <label>Are pool covers used correctly and on a regular basis?</label>
+                            <div class="choice-list">
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="Yes"> Yes</label>
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="No"> No</label>
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="Don't Know"> Don't Know</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>If the pool hall has a ventilation system, is it fitted with humidity controls?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Not applicable"> Not Applicable</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Are heat recovery devices installed to pool water and pool hall heating systems?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steam Toggle -->
+            <div class="form-group">
+                <label class="required-field">Does the building run or utilize a Steam Boiler?</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasSteam', 'steamBlock')">
+                    <label class="choice-item"><input type="radio" name="hasSteam" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasSteam" value="No"> No</label>
+                </div>
+                <div id="steamBlock" class="conditional-block">
+                    <label>Has a steam boiler energy performance inspection been completed in the last 12 months?</label>
+                    <div class="choice-list">
+                        <label class="choice-item"><input type="radio" name="steamInspection" value="Yes"> Yes</label>
+                        <label class="choice-item"><input type="radio" name="steamInspection" value="No"> No</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 8: CATERING -->
+        <div class="tab-panel">
+            <h2 class="section-title">Catering</h2>
+            <div class="form-group">
+                <label class="required-field">Does the building have any industrial catering/kitchen requirements?</label>
+                <div class="choice-list" onchange="toggleRadioBlock('hasCatering', 'cateringBlock')">
+                    <label class="choice-item"><input type="radio" name="hasCatering" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="hasCatering" value="No"> No</label>
+                </div>
+                <div id="cateringBlock" class="conditional-block">
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Is a kitchen energy efficiency management plan active?</label>
+                            <button type="button" class="help-icon-btn" onclick="openHelp('cateringPlan')" aria-label="What does this mean?">?</button>
+                        </div>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="cateringPlan" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="cateringPlan" value="No"> No</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Are the kitchen facilities fitted with energy meters?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="cateringEnergyMeters" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="cateringEnergyMeters" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="cateringEnergyMeters" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Is a kitchen energy efficiency plan in place?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="cateringEfficiencyPlan" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="cateringEfficiencyPlan" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="cateringEfficiencyPlan" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Are catering staff trained in measures to reduce energy waste?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="cateringStaffTrained" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="cateringStaffTrained" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="cateringStaffTrained" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Does utilisation of large pieces of equipment vary throughout the day? i.e. ovens or dishwashers operate at less than maximum capacity</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 9: SIGN OFF -->
+        <div class="tab-panel">
+            <h2 class="section-title">Form Verification & Sign Off</h2>
+            <div class="form-group">
+                <label for="signed" class="required-field">Authorized Officer Name / Digital Signature</label>
+                <input type="text" id="signed" name="signed" placeholder="Type name to sign off" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="signTitle" class="required-field">Corporate Title / Position</label>
+                    <input type="text" id="signTitle" name="signTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="signDate" class="required-field">Verification Date</label>
+                    <input type="date" id="signDate" name="signDate" required>
+                </div>
+            </div>
+            <p style="font-size: 13px; color: #64748B; margin-top: 30px;">
+                By completing this profile, you declare that all data matches current logistical operations to the best of your organizational knowledge.
+            </p>
+        </div>
+
+        <div class="footer-nav">
+            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" disabled>Back</button>
+            <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Next Section</button>
+        </div>
+    </form>
+</div>
+
+<div id="helpModal" class="help-modal-overlay" onclick="closeHelp(event)">
+    <div class="help-modal-box" onclick="event.stopPropagation()">
+        <div class="help-modal-header">
+            <h3 id="helpModalTitle"></h3>
+            <button type="button" class="help-modal-close" onclick="closeHelp()" aria-label="Close">&times;</button>
+        </div>
+        <div id="helpModalBody" class="help-modal-body"></div>
+    </div>
+</div>
+
+<script>
+    // --- INTEGRATED ENGINE ROUTING TASKS ---
+    const EMAILJS_PUBLIC_KEY = "xdCWi9zAQlP5rqSzG";
+    const EMAILJS_SERVICE_ID = "default_service";
+    const EMAILJS_TEMPLATE_ID = "template_win1xkd";
+    // ------------------------------------------
+
+    (function() {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    })();
+
+    let currentStep = 0;
+    let maxUnlockedStep = 0;
+
+    const panels = document.querySelectorAll('.tab-panel');
+    const steps = document.querySelectorAll('.tab-step');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateStepStyles() {
+        steps.forEach((step, idx) => {
+            step.classList.remove('active', 'completed');
+            if (idx === currentStep) {
+                step.classList.add('active');
+                step.style.cursor = 'default';
+            } else if (idx <= maxUnlockedStep) {
+                step.classList.add('completed');
+                step.style.cursor = 'pointer';
+            } else {
+                step.style.cursor = 'not-allowed';
+            }
+        });
+    }
+
+    function navigateToStep(targetIndex) {
+        if (targetIndex <= maxUnlockedStep) {
+            panels[currentStep].classList.remove('active');
+            currentStep = targetIndex;
+            panels[currentStep].classList.add('active');
+            updateStepStyles();
+            updateFooterButtons();
+        }
+    }
+
+    function validateCurrentPanel() {
+        const currentPanel = panels[currentStep];
+        const requiredInputs = currentPanel.querySelectorAll('[required]');
+        
+        let allValid = true;
+        requiredInputs.forEach(input => {
+            if(!input.checkValidity()) {
+                input.reportValidity();
+                allValid = false;
+            }
+        });
+
+        if (currentStep === 3) {
+            const strategy = document.getElementById('ventStrategy').value;
+            const acPicked = document.querySelector('input[name="hasAC"]:checked');
+            if(!strategy) { document.getElementById('ventStrategy').reportValidity(); allValid = false; }
+            if(!acPicked) { alert("Please answer the Air Conditioning field to continue."); allValid = false; }
+        }
+        if (currentStep === 6) {
+            const rules = ['hasLifts', 'hasPool', 'hasSteam'];
+            rules.forEach(name => {
+                if(!document.querySelector(`input[name="${name}"]:checked`)) {
+                    alert("Please answer all primary section switches on this page.");
+                    allValid = false;
+                }
+            });
+        }
+        if (currentStep === 7) {
+            if(!document.querySelector('input[name="hasCatering"]:checked')) {
+                alert("Please answer the catering question to continue.");
+                allValid = false;
+            }
+        }
+
+        return allValid;
+    }
+
+    function changeStep(direction) {
+        if (direction === 1) {
+            if (!validateCurrentPanel()) return;
+            if (currentStep === maxUnlockedStep) {
+                maxUnlockedStep++;
+            }
+        }
+
+        panels[currentStep].classList.remove('active');
+        currentStep += direction;
+        panels[currentStep].classList.add('active');
+
+        steps[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        updateStepStyles();
+        updateFooterButtons();
+    }
+
+    function updateFooterButtons() {
+        prevBtn.disabled = (currentStep === 0);
+        if (currentStep === panels.length - 1) {
+            nextBtn.textContent = "Submit Profile";
+            nextBtn.type = "submit";
+            nextBtn.onclick = null; 
+        } else {
+            nextBtn.textContent = "Next Section";
+            nextBtn.type = "button";
+            nextBtn.onclick = function() { changeStep(1); };
+        }
+    }
+
+    function toggleVentilationSections() {
+        const value = document.getElementById('ventStrategy').value;
+        document.getElementById('mixedVentSection').style.display = (value === 'Mixed') ? 'block' : 'none';
+        document.getElementById('mechVentSection').style.display = (value === 'Mechanical') ? 'block' : 'none';
+        document.getElementById('naturalVentSection').style.display = (value === 'Natural') ? 'block' : 'none';
+    }
+
+    function toggleRadioBlock(radioName, blockId) {
+        const radios = document.getElementsByName(radioName);
+        let selectedValue = "";
+        for (const radio of radios) {
+            if (radio.checked) { selectedValue = radio.value; break; }
+        }
+        document.getElementById(blockId).style.display = (selectedValue === 'Yes') ? 'block' : 'none';
+    }
+
+    document.getElementById('decForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        if(!validateCurrentPanel()) return;
+
+        nextBtn.disabled = true;
+        nextBtn.textContent = "Sending Profile...";
+
+        // Dynamic transmission mapping payload direct via script injection
+        emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, this)
+            .then(() => {
+                alert('Thank you! Your survey checklist profile has been compiled and securely sent to our engineering team.');
+                nextBtn.textContent = "Profile Submitted";
+            }, (error) => {
+                alert('Submission failed. Please check your credentials config: ' + JSON.stringify(error));
+                nextBtn.disabled = false;
+                nextBtn.textContent = "Submit Profile";
+            });
+    });
+
+    function toggleOtherText(selectId, blockId) {
+        const value = document.getElementById(selectId).value;
+        document.getElementById(blockId).style.display = (value === 'Other') ? 'block' : 'none';
+    }
+
+    // --- HELP MODAL CONTENT & LOGIC ---
+    const helpContent = {
+        internalEnvironment: {
+            title: "Internal Environment Profile",
+            body: `
+                <p>This describes, overall, how the majority of the building is kept warm and supplied with fresh air. Pick whichever description best matches how most of the building actually works day-to-day.</p>
+                <dl>
+                    <dt>Heating and natural ventilation</dt>
+                    <dd>The building has a heating system (e.g. radiators or heaters), but fresh air comes in through openable windows, doors, or vents rather than any fan-driven system.</dd>
+                    <dt>Heating and mechanical ventilation</dt>
+                    <dd>The building has a heating system, and fresh air is supplied and/or extracted using fans and ductwork rather than relying on people opening windows.</dd>
+                    <dt>Mixed mode with natural ventilation</dt>
+                    <dd>Some parts of the building have cooling (air conditioning), but the majority still relies on openable windows/vents for fresh air.</dd>
+                    <dt>Mixed mode with mechanical ventilation</dt>
+                    <dd>Some parts of the building have cooling (air conditioning), and the majority is served by fan-driven mechanical ventilation rather than openable windows.</dd>
+                    <dt>Air conditioning only</dt>
+                    <dd>The majority of the building relies on air conditioning units for both heating/cooling and fresh air, with little or no separate natural or mechanical ventilation system.</dd>
+                </dl>`
+        },
+        buildingLogbook: {
+            title: "Building Logbook",
+            body: `
+                <p>A Building Logbook is a document (often produced when a building is constructed, refurbished, or first assessed) that records key information about how the building and its services are designed to operate.</p>
+                <p>It typically includes details such as the building's energy systems, plant and equipment, control strategies, and who is responsible for managing them — used as a reference to help operate the building efficiently.</p>`
+        },
+        hvacSystemType: {
+            title: "Main Type of HVAC System Installed",
+            body: `
+                <p>This asks what kind of equipment actually delivers the heating (and cooling, if any) around the building. Choose the system that serves the largest share of the floor area.</p>
+                <dl>
+                    <dt>Radiators</dt>
+                    <dd>Traditional wall-mounted panels filled with hot water, found in most homes and older office buildings.</dd>
+                    <dt>Under-floor heating</dt>
+                    <dd>Heating pipes or electric cables installed beneath the floor surface, warming rooms from the ground up.</dd>
+                    <dt>Convectors (fanned and unfanned)</dt>
+                    <dd>Wall or floor-mounted heater units that warm air passing through them, either naturally (unfanned) or with a small fan to boost airflow.</dd>
+                    <dt>Local system (electric panel heaters, split AC)</dt>
+                    <dd>Individual, standalone units in each room, such as plug-in electric panel heaters or wall-mounted split air conditioning units, with no shared central plant.</dd>
+                    <dt>Partially centralized (fan coils, chilled beams)</dt>
+                    <dd>A shared central plant produces hot/cold water or air, which is then delivered to individual rooms through fan coil units or chilled beams in the ceiling.</dd>
+                    <dt>Centralized system (constant/variable air volume)</dt>
+                    <dd>One large, central air handling system distributes conditioned air throughout the building via ductwork, either at a constant flow rate or one that varies with demand.</dd>
+                </dl>`
+        },
+        ventStrategy: {
+            title: "Ventilation Strategy / System",
+            body: `
+                <p>This asks how fresh air gets into and moves around most of the building.</p>
+                <dl>
+                    <dt>Natural Ventilation</dt>
+                    <dd>Fresh air comes in through openable windows, doors, trickle vents, or other openings in the building fabric. There are no fans driving the airflow.</dd>
+                    <dt>Mechanical Ventilation</dt>
+                    <dd>Fans and ductwork continuously supply and/or extract air, whether or not any windows can also be opened.</dd>
+                    <dt>Mixed Mode</dt>
+                    <dd>A combination of both — for example, windows are used most of the time, but mechanical ventilation or air conditioning kicks in for certain rooms, seasons, or occupancy levels.</dd>
+                </dl>`
+        },
+        mechVariable: {
+            title: "Mechanical Ventilation Variable Controls",
+            body: `
+                <p>Some mechanical ventilation systems run their fans at a fixed speed all the time. Others can automatically speed up or slow down depending on how many people are in the building, the time of day, or air quality readings.</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>The fans can adjust their speed/output automatically (e.g. via sensors, timers, or a Building Management System) rather than always running flat out.</dd>
+                    <dt>No</dt>
+                    <dd>The system only runs at one fixed speed, with no automatic adjustment.</dd>
+                </dl>`
+        },
+        hwsTimeControls: {
+            title: "HWS Individual Time Controls",
+            body: `
+                <p>"HWS" stands for Hot Water System — the equipment that heats water for taps, showers, etc. This question asks whether each local electric water heater (e.g. point-of-use or under-sink heaters) has its own timer so it isn't heating water when nobody needs it (e.g. overnight or at weekends).</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>Each local electric hot water heater has its own timer or schedule controlling when it heats up.</dd>
+                    <dt>No</dt>
+                    <dd>The heaters run continuously or are only switched on/off manually, with no automatic time control.</dd>
+                    <dt>Not Applicable</dt>
+                    <dd>The building doesn't use local electrically heated hot water heaters (e.g. hot water comes from a gas boiler instead).</dd>
+                </dl>`
+        },
+        waterSaving: {
+            title: "Water Saving Measures",
+            body: `
+                <p>This asks whether simple devices have been fitted to reduce how much water is used at taps, showers, and similar fittings, without affecting how they feel to use.</p>
+                <dl>
+                    <dt>Flow restrictors</dt>
+                    <dd>Small fittings inside a tap or shower that limit how much water can flow through per minute.</dd>
+                    <dt>Diffusers / aerators</dt>
+                    <dd>Fittings on the end of a tap or showerhead that mix air into the water stream, keeping the flow feeling strong while using less water.</dd>
+                    <dt>Self closing taps</dt>
+                    <dd>Taps that shut off automatically after a short period, or once released, so water isn't left running unnecessarily.</dd>
+                </dl>
+                <p>Answer "Yes" if any such measures are fitted anywhere in the building, "No" if none are fitted.</p>`
+        },
+        automatedControls: {
+            title: "Equipment Suited to Automated Controls",
+            body: `
+                <p>Some equipment runs continuously even when the building is empty, simply because there is nothing switching it off. Fitting a time switch, occupancy sensor, or similar control can cut that waste with no change to how the equipment is used.</p>
+                <p>Typical candidates include vending machines, hot water kettle boilers, water coolers, display lighting, and standalone office appliances.</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>There is equipment left running out of hours that could be switched off automatically.</dd>
+                    <dt>No</dt>
+                    <dd>All such equipment is already controlled automatically or switched off manually when not needed.</dd>
+                </dl>`
+        },
+        procurementPolicy: {
+            title: "Energy-Efficient Procurement Policy",
+            body: `
+                <p>This asks whether, when the organization buys new IT or office equipment, there is a formal policy in place requiring energy-efficient models to be chosen — for example, only buying equipment with an Energy Star rating or similar energy-efficiency certification.</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>There's a written or established practice of favoring energy-efficient hardware when purchasing new equipment.</dd>
+                    <dt>No</dt>
+                    <dd>Equipment is purchased without any specific requirement around energy efficiency.</dd>
+                </dl>`
+        },
+        poolCovers: {
+            title: "Swimming Pool Covers",
+            body: `
+                <p>Pool (thermal) covers are floating or roll-out covers placed over a swimming pool's surface, usually overnight or when the pool is not in use, to trap heat and reduce water evaporation. This cuts the energy needed to keep the pool warm and reduces the humidity load on the pool hall ventilation system.</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>Covers are installed and available for use, whether or not they are used consistently.</dd>
+                    <dt>No</dt>
+                    <dd>No covers are installed.</dd>
+                </dl>
+                <p>If covers are fitted, a follow-up question asks whether they are actually used correctly and regularly — covers only save energy when they are deployed.</p>`
+        },
+        cateringPlan: {
+            title: "Kitchen Energy Efficiency Management Plan",
+            body: `
+                <p>This asks whether the building's industrial kitchen/catering area has a formal plan in place for managing energy use — for example, procedures for switching off extraction fans and cooking equipment when not needed, planned maintenance to keep equipment running efficiently, or staff guidance on energy-conscious kitchen practices.</p>
+                <dl>
+                    <dt>Yes</dt>
+                    <dd>There is an active, documented plan or set of procedures aimed at managing and reducing the kitchen's energy consumption.</dd>
+                    <dt>No</dt>
+                    <dd>No such plan exists, or kitchen energy use isn't actively managed.</dd>
+                </dl>`
+        }
+    };
+
+    function openHelp(key) {
+        const data = helpContent[key];
+        if (!data) return;
+        document.getElementById('helpModalTitle').textContent = data.title;
+        document.getElementById('helpModalBody').innerHTML = data.body;
+        document.getElementById('helpModal').classList.add('active');
+    }
+
+    function closeHelp(e) {
+        document.getElementById('helpModal').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeHelp();
+    });
+
+    updateStepStyles();
+</script>
+
+</body>
+</html>
