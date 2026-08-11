@@ -626,6 +626,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label>Has a boiler plant energy performance inspection been carried out in the past 12 months?</label>
+                <div class="choice-list">
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Not applicable"> Not Applicable</label>
+                    <label class="choice-item"><input type="radio" name="boilerInspection" value="Don't Know"> Don't Know</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label>Is there an annual expert check system for heating operational efficiency?</label>
                 <div class="choice-list">
                     <label class="choice-item"><input type="radio" name="annualHeatingChecks" value="Yes"> Yes</label>
@@ -772,7 +781,7 @@
                     <div class="choice-list">
                         <label class="choice-item"><input type="radio" name="natLocalACControls" value="Yes"> Yes</label>
                         <label class="choice-item"><input type="radio" name="natLocalACControls" value="No"> No</label>
-                        <label class="choice-item"><input type="radio" name="natLocalACControls" value="Don't Know"> Don't Know</label>
+                        <label class="choice-item"><input type="radio" name="natLocalACControls" value="Not applicable"> Not Applicable</label>
                     </div>
                 </div>
             </div>
@@ -832,7 +841,7 @@
             </div>
             <div class="form-group">
                 <div class="label-row">
-                    <label>Are electrically heated HWS cylinders/heaters fitted with individual time controls?</label>
+                    <label>Are electrically heated local HWS heaters fitted with individual time controls?</label>
                     <button type="button" class="help-icon-btn" onclick="openHelp('hwsTimeControls')" aria-label="What does this mean?">?</button>
                 </div>
                 <div class="choice-list">
@@ -858,12 +867,17 @@
             <h2 class="section-title">Small Power & On-Site Utilities</h2>
             <div class="form-group">
                 <div class="label-row">
-                    <label>Are power saving options on IT equipment effectively utilized across the facility?</label>
-                    <button type="button" class="help-icon-btn" onclick="openHelp('itPowerSaving')" aria-label="What does this mean?">?</button>
+                    <label>Are there any items of equipment used within the building that would benefit from automated controls? e.g. vending machines and hot water kettle boilers.</label>
+                    <button type="button" class="help-icon-btn" onclick="openHelp('automatedControls')" aria-label="What does this mean?">?</button>
                 </div>
-                <div class="choice-list">
-                    <label class="choice-item"><input type="radio" name="itPowerSaving" value="Yes"> Yes</label>
-                    <label class="choice-item"><input type="radio" name="itPowerSaving" value="No"> No</label>
+                <div class="choice-list" onchange="toggleRadioBlock('automatedControls', 'automatedControlsBlock')">
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="Yes"> Yes</label>
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="No"> No</label>
+                    <label class="choice-item"><input type="radio" name="automatedControls" value="Don't Know"> Don't Know</label>
+                </div>
+                <div id="automatedControlsBlock" class="conditional-block">
+                    <label for="automatedControlsDetail">Please list the items of equipment</label>
+                    <input type="text" id="automatedControlsDetail" name="automatedControlsDetail" placeholder="e.g. vending machines, kettle boilers, water coolers">
                 </div>
             </div>
             <div class="form-group">
@@ -932,13 +946,48 @@
                     <label class="choice-item"><input type="radio" name="hasPool" value="No"> No</label>
                 </div>
                 <div id="poolBlock" class="conditional-block">
-                    <div class="label-row">
-                        <label>Is the swimming pool equipped with thermal covers?</label>
-                        <button type="button" class="help-icon-btn" onclick="openHelp('poolCovers')" aria-label="What does this mean?">?</button>
+                    <div class="form-group">
+                        <label>Is the pool complex fitted with energy meters?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolEnergyMeters" value="Don't Know"> Don't Know</label>
+                        </div>
                     </div>
-                    <div class="choice-list">
-                        <label class="choice-item"><input type="radio" name="poolCovers" value="Yes"> Yes</label>
-                        <label class="choice-item"><input type="radio" name="poolCovers" value="No"> No</label>
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Is the swimming pool fitted with covers?</label>
+                            <button type="button" class="help-icon-btn" onclick="openHelp('poolCovers')" aria-label="What does this mean?">?</button>
+                        </div>
+                        <div class="choice-list" onchange="toggleRadioBlock('poolCovers', 'poolCoverUsageBlock')">
+                            <label class="choice-item"><input type="radio" name="poolCovers" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolCovers" value="No"> No</label>
+                        </div>
+                        <div id="poolCoverUsageBlock" class="conditional-block">
+                            <label>Are pool covers used correctly and on a regular basis?</label>
+                            <div class="choice-list">
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="Yes"> Yes</label>
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="No"> No</label>
+                                <label class="choice-item"><input type="radio" name="poolCoverUsage" value="Don't Know"> Don't Know</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>If the pool hall has a ventilation system, is it fitted with humidity controls?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Not applicable"> Not Applicable</label>
+                            <label class="choice-item"><input type="radio" name="poolHumidityControls" value="Don't Know"> Don't Know</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Are heat recovery devices installed to pool water and pool hall heating systems?</label>
+                        <div class="choice-list">
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="Yes"> Yes</label>
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="No"> No</label>
+                            <label class="choice-item"><input type="radio" name="poolHeatRecovery" value="Don't Know"> Don't Know</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1010,30 +1059,6 @@
                             <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="Yes"> Yes</label>
                             <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="No"> No</label>
                             <label class="choice-item"><input type="radio" name="cateringUtilisationVaries" value="Don't Know"> Don't Know</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Are catering appliances in good condition?</label>
-                        <div class="choice-list">
-                            <label class="choice-item"><input type="radio" name="cateringAppliancesCondition" value="Yes"> Yes</label>
-                            <label class="choice-item"><input type="radio" name="cateringAppliancesCondition" value="No"> No</label>
-                            <label class="choice-item"><input type="radio" name="cateringAppliancesCondition" value="Don't Know"> Don't Know</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Are refrigerators thermally isolated from other pieces of equipment such as ovens and dishwashers?</label>
-                        <div class="choice-list">
-                            <label class="choice-item"><input type="radio" name="cateringFridgeIsolated" value="Yes"> Yes</label>
-                            <label class="choice-item"><input type="radio" name="cateringFridgeIsolated" value="No"> No</label>
-                            <label class="choice-item"><input type="radio" name="cateringFridgeIsolated" value="Don't Know"> Don't Know</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Are refrigerators fitted with heat recovery?</label>
-                        <div class="choice-list">
-                            <label class="choice-item"><input type="radio" name="cateringFridgeHeatRecovery" value="Yes"> Yes</label>
-                            <label class="choice-item"><input type="radio" name="cateringFridgeHeatRecovery" value="No"> No</label>
-                            <label class="choice-item"><input type="radio" name="cateringFridgeHeatRecovery" value="Don't Know"> Don't Know</label>
                         </div>
                     </div>
                 </div>
@@ -1303,14 +1328,14 @@
         hwsTimeControls: {
             title: "HWS Individual Time Controls",
             body: `
-                <p>"HWS" stands for Hot Water System — the equipment that heats water for taps, showers, etc. This question asks whether each electric water heater/cylinder has its own timer so it isn't heating water when nobody needs it (e.g. overnight or at weekends).</p>
+                <p>"HWS" stands for Hot Water System — the equipment that heats water for taps, showers, etc. This question asks whether each local electric water heater (e.g. point-of-use or under-sink heaters) has its own timer so it isn't heating water when nobody needs it (e.g. overnight or at weekends).</p>
                 <dl>
                     <dt>Yes</dt>
-                    <dd>Each electric hot water heater/cylinder has its own timer or schedule controlling when it heats up.</dd>
+                    <dd>Each local electric hot water heater has its own timer or schedule controlling when it heats up.</dd>
                     <dt>No</dt>
                     <dd>The heaters run continuously or are only switched on/off manually, with no automatic time control.</dd>
                     <dt>Not Applicable</dt>
-                    <dd>The building doesn't use electrically heated hot water cylinders/heaters (e.g. hot water comes from a gas boiler instead).</dd>
+                    <dd>The building doesn't use local electrically heated hot water heaters (e.g. hot water comes from a gas boiler instead).</dd>
                 </dl>`
         },
         waterSaving: {
@@ -1327,15 +1352,16 @@
                 </dl>
                 <p>Answer "Yes" if any such measures are fitted anywhere in the building, "No" if none are fitted.</p>`
         },
-        itPowerSaving: {
-            title: "IT Equipment Power Saving Options",
+        automatedControls: {
+            title: "Equipment Suited to Automated Controls",
             body: `
-                <p>Most computers, monitors, and printers have built-in power-saving features — such as automatically going to sleep, dimming the screen, or powering down after a period of inactivity. This question asks whether those features are actually switched on and used across the building, rather than just being available but ignored.</p>
+                <p>Some equipment runs continuously even when the building is empty, simply because there is nothing switching it off. Fitting a time switch, occupancy sensor, or similar control can cut that waste with no change to how the equipment is used.</p>
+                <p>Typical candidates include vending machines, hot water kettle boilers, water coolers, display lighting, and standalone office appliances.</p>
                 <dl>
                     <dt>Yes</dt>
-                    <dd>Power-saving settings (sleep mode, auto shut-down, etc.) are enabled and in regular use on IT equipment.</dd>
+                    <dd>There is equipment left running out of hours that could be switched off automatically.</dd>
                     <dt>No</dt>
-                    <dd>IT equipment is generally left running at full power, or power-saving settings are not enabled.</dd>
+                    <dd>All such equipment is already controlled automatically or switched off manually when not needed.</dd>
                 </dl>`
         },
         procurementPolicy: {
@@ -1350,15 +1376,16 @@
                 </dl>`
         },
         poolCovers: {
-            title: "Swimming Pool Thermal Covers",
+            title: "Swimming Pool Covers",
             body: `
-                <p>Thermal covers are floating or roll-out covers placed over a swimming pool's surface (usually overnight or when not in use) to trap heat and reduce water evaporation, cutting the energy needed to keep the pool warm.</p>
+                <p>Pool (thermal) covers are floating or roll-out covers placed over a swimming pool's surface, usually overnight or when the pool is not in use, to trap heat and reduce water evaporation. This cuts the energy needed to keep the pool warm and reduces the humidity load on the pool hall ventilation system.</p>
                 <dl>
                     <dt>Yes</dt>
-                    <dd>The pool has a thermal cover that is used to retain heat when the pool isn't in use.</dd>
+                    <dd>Covers are installed and available for use, whether or not they are used consistently.</dd>
                     <dt>No</dt>
-                    <dd>The pool has no thermal cover, or one exists but isn't used.</dd>
-                </dl>`
+                    <dd>No covers are installed.</dd>
+                </dl>
+                <p>If covers are fitted, a follow-up question asks whether they are actually used correctly and regularly — covers only save energy when they are deployed.</p>`
         },
         cateringPlan: {
             title: "Kitchen Energy Efficiency Management Plan",
